@@ -1,0 +1,9 @@
+cpbt:III
+ephhldgs:1
+ixbt:2021-06-22
+OLX:AAA:Rexic:5:tet.ua
+OLX:BBB:Rexic:5:tet.ua
+OLX:CCC:Rexic:5:tet.ua
+OLX:DDD:Rexic:5:tet.ua
+OLX:GGG:Rexic:5:tet.ua
+OLX:EEE:Rexic:5:tet.ua

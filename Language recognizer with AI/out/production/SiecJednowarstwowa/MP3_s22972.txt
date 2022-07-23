@@ -1,0 +1,269 @@
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Main {
+
+    public static void main(String[] args) {
+        double parametr_a = Double.parseDouble(args[0]);
+        String pathToData = args[1];
+        Map<String, List<List<Double>>> mapLeng = Util.readFiles(pathToData);
+
+        Warstwa war = new Warstwa(mapLeng,parametr_a,0.9);
+
+        while (true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Put your text -> :");
+
+            String outStr = "";
+            String str = sc.nextLine();
+            do{
+                outStr = outStr+str;
+                str = sc.nextLine();
+            }while (str != "");
+
+            System.out.println("Сonclusion -> " + war.getGrup(outStr));
+        }
+
+    }
+}
+
+public class Perceptron {
+
+    double[] wags;
+    double prog;
+    double parametr_a;
+    double accurancyPerceptron = 0;
+    String grup = "";
+
+    public Perceptron(String grup, double parametr_a, double[] wags, double prog) {
+
+        this.wags = new double[wags.length];
+
+        for (int i = 0; i < wags.length; i++) {
+            this.wags[i] = wags[i];
+        }
+        this.prog = prog;
+
+        this.grup = grup;
+        this.parametr_a = parametr_a;
+    }
+
+    public void trainPerceptron(Map<String, List<List<Double>>> trainMap){
+        String[] grups = trainMap.keySet().toArray(new String[0]);
+
+        int notOk = 0;
+        int all = 0;
+
+        for (String x: grups) {
+            for (int i = 0; i < trainMap.get(x).size(); i++) {
+                double sum = 0;
+                all++;
+                List<Double> list = new ArrayList<>();
+
+                for (int j = 0; j < trainMap.get(x).get(i).size(); j++) {
+
+                    sum += trainMap.get(x).get(i).get(j)*wags[j];
+
+                    list.add(trainMap.get(x).get(i).get(j));
+
+                    if (j == trainMap.get(x).get(i).size()-1){
+                        int y;
+                        if (sum >= prog){
+                            y = 1;
+                        }else{
+                            y = 0;
+                        }
+
+                        if (y == 1 && !x.equals(grup)){
+                            regDelta(y, list);
+                            notOk++;
+                        }
+                        else if (y == 0 && x.equals(grup)){
+                            regDelta(y,list);
+                            notOk++;
+                        }
+                    }
+
+                    accurancyPerceptron = (all-notOk)/all;
+                }
+            }
+        }
+    }
+
+    public double getNet(String str){
+        List<String> list = Arrays.asList(str);
+        List<Double> doubleList = Util.countLitery(list);
+
+        double sum = 0;
+        for (int i = 0; i < doubleList.size(); i++) {
+            sum += doubleList.get(i)*wags[i];
+        }
+
+        return sum;
+    }
+
+    public double getAccurancyPerceptron() {
+        return accurancyPerceptron;
+    }
+
+    public void regDelta(int y, List<Double> list){
+        int d;
+        if (y == 1){
+            d = 0;
+        }else{
+            d = 1;
+        }
+
+        for (int k = 0; k < wags.length; k++) {
+            wags[k] = wags[k] + (d-y)*parametr_a * list.get(k);
+        }
+        //prog = prog-(d-y)*parametr_a;
+    }
+
+}
+
+public class Util {
+
+    public static Map<String, List<List<Double>>> readFiles(String readPath) {
+        Map<String, List<List<Double>>> map = new HashMap<>();
+
+        try {
+
+            Files.walk(Paths.get(readPath))
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .forEach(x-> {
+                        if (!map.containsKey(x.getParent().replaceAll(".*\\\\",""))){
+                            map.put(x.getParent().replaceAll(".*\\\\",""), new ArrayList<>());
+                        }
+
+                        try {
+                            FileReader fr = new FileReader(x);
+                            BufferedReader reader = new BufferedReader(fr);
+                            String line = reader.readLine();
+
+                            List<String> listStr = new ArrayList<>();
+                            while (line != null) {
+                                listStr.add(line);
+                                line = reader.readLine();
+                            }
+                            map.get(x.getParent().replaceAll(".*\\\\","")).add(countLitery(listStr));
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public static List<Double> countLitery(List<String> list){
+
+        char[] litery = {'a','b','c','d','e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+
+
+        double[] countChars = new double[26];
+        List<Double> charsList = new ArrayList<>();
+
+        for (String str : list) {
+            str.toLowerCase(Locale.ROOT);
+            char[] charsInLine = str.toCharArray();
+            for (int i = 0; i < charsInLine.length; i++) {
+                for (int j = 0; j < litery.length; j++) {
+                    if (charsInLine[i] == litery[j]){
+                        countChars[j] = countChars[j]+1D;
+                    }
+                }
+            }
+        }
+        int suma = 0;
+        for (int i = 0; i < countChars.length; i++) {
+            suma += countChars[i];
+        }
+        for (int i = 0; i < countChars.length; i++) {
+            charsList.add(countChars[i]/suma);
+        }
+
+        return charsList;
+    }
+
+    public static int getMaxI(double[] mass){
+        int maxI = 0;
+        for (int i = 0; i < mass.length-1; i++) {
+            if (mass[maxI] < mass[i+1]){
+                maxI = i+1;
+            }
+        }
+        return maxI;
+    }
+
+}
+
+public class Warstwa {
+
+    List<Perceptron> listPerceptrons;
+    Map<String, List<List<Double>>> mapLeng;
+    String[] grups;
+    double parametr_a;
+
+    public Warstwa(Map<String, List<List<Double>>> mapLeng,double parametr_a, double acc) {
+        this.mapLeng = mapLeng;
+        this.parametr_a = parametr_a;
+        listPerceptrons = new LinkedList<>();
+        grups = mapLeng.keySet().toArray(new String[0]);
+
+        double[] wags = new double[mapLeng.get(grups[0]).get(0).size()];
+        double prog;
+
+        Random r = new Random();
+        for (int i = 0; i < wags.length; i++) {
+            wags[i] = r.nextDouble()*5-5;
+        }
+        prog = r.nextDouble()*5-5;
+
+
+        for (int i = 0; i < grups.length; i++) {
+            listPerceptrons.add(new Perceptron(grups[i], parametr_a,wags,prog));
+        }
+
+        for (int i = 0; i < listPerceptrons.size(); i++) {
+            while (listPerceptrons.get(i).accurancyPerceptron < acc){
+                listPerceptrons.get(i).trainPerceptron(mapLeng);
+            }
+            System.out.println(grups[i] + " " + listPerceptrons.get(i).getAccurancyPerceptron() + " accuracy");
+        }
+    }
+
+    public String getGrup(String str){
+        double[] nets = new double[listPerceptrons.size()];
+        for (int i = 0; i < listPerceptrons.size(); i++) {
+            nets[i] = listPerceptrons.get(i).getNet(str);
+            System.out.println("Think that it is -> " + listPerceptrons.get(i).grup + " " + nets[i]);
+        }
+
+        return listPerceptrons.get(Util.getMaxI(nets)).grup;
+    }
+
+    public void trainAgain(double acc){
+        for (int i = 0; i < grups.length; i++) {
+            listPerceptrons.get(i).trainPerceptron(mapLeng);
+        }
+
+        for (int i = 0; i < listPerceptrons.size(); i++) {
+            while (listPerceptrons.get(i).accurancyPerceptron < acc){
+                listPerceptrons.get(i).trainPerceptron(mapLeng);
+            }
+        }
+    }
+}

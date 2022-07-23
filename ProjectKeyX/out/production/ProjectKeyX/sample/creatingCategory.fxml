@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgb(255,116,51)" stylesheets="@ForManagingCSS.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.creatingController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="51.0" prefHeight="18.0" prefWidth="134.0" text="Name category" textAlignment="CENTER" />
+      <TextField fx:id="nameCategoryText" layoutX="25.0" layoutY="75.0" />
+      <Button fx:id="nameCreatingButton" layoutX="60.0" layoutY="101.0" mnemonicParsing="false" onAction="#nameCreating" text="Create" />
+   </children>
+</AnchorPane>

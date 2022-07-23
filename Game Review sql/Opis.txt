@@ -1,0 +1,27 @@
+Baza danych przeznaczona jest do przechowywania recenzji gier wideo.
+Musi mieć dane o autorach, recenzjach, grach i o firmach, które stworzyły te gry.
+W jednej recenzji może być wiele gier i wielu autorów.
+Więcej niż jedna firma może stworzyć jedną grę.
+Każda gra ma tylko jeden gatunek.
+---------------------------------------------------
+Tabela "Writer":
+NaWriter -> imie pisarza;
+SurnWriter -> nazwisko pisarza;
+NumPhone -> numer telefonu pisarza;
+Mail -> mail;
+---------------------------------------------------
+Tabela "Review":
+Title -> tytuł tekstu;
+Date_Writed -> kiedy recenzja była napisana;
+Body_Review -> można zrobić typ "plik", ale teraz nie jest ten typ potrzebny;
+---------------------------------------------------
+Tabela "Games":
+ReDate -> data wydania gry;
+NaGame -> nazwa gry;
+Genre -> gatunek gry;
+---------------------------------------------------
+Tabela "Company":
+Name -> nazwa firmy;
+Capitalization ->  kapitalizacja;
+Location -> lokalizacja siedziby firmy (można dodać lokalizację dodatkowych działów ale nie teraz);
+/////////////////////////////////////////////////////////

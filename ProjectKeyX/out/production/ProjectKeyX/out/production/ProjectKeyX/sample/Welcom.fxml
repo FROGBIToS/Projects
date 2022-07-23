@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="600.0" stylesheets="@ForManagingCSS.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller" style="-fx-background-color: rgb(255,116,51)">
+   <children>
+
+      <Label fx:id="welcomLabel" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="171.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="258.0" styleClass="Welcom" text="Welcom to KeyX" textAlignment="CENTER" />
+
+      <Label fx:id="createLabel" layoutX="349.0" layoutY="91.0" text="Create file" styleClass="createLabel">
+        </Label>
+
+      <TextField fx:id="createText" layoutX="349.0" layoutY="115.0" styleClass="createText"/>
+
+      <Button fx:id="createButton" alignment="CENTER" layoutX="499.0" layoutY="115.0" mnemonicParsing="false" onAction="#creatingFileMethod" opacity="0.38" text="◙" styleClass="createButton"/>
+
+      <Button fx:id="toLoginButton" alignment="CENTER" layoutX="225.0" layoutY="145.0" mnemonicParsing="false" onAction="#toLoginMethod" prefHeight="70.0" prefWidth="113.0" text="To Login" textAlignment="CENTER" styleClass="toLoginButton">
+      </Button>
+
+      <Button fx:id="choosingFileButton" layoutX="36.0" layoutY="87.0" mnemonicParsing="false" onAction="#choosingFileMethod" prefHeight="0.0" prefWidth="106.0" text="Choose file" textAlignment="CENTER" styleClass="chooseButton">
+      </Button>
+
+      <Label fx:id="chooseFileLabel" layoutX="36.0" layoutY="117.0" prefHeight="26.0" prefWidth="134.0" styleClass="chooseLabel">
+      </Label>
+   </children>
+
+</AnchorPane>

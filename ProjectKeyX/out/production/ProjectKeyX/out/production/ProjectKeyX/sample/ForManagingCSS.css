@@ -1,0 +1,123 @@
+Label.Welcom{
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 36px;
+}
+
+Label.chooseLabel{
+    -fx-background-color: rgb(255,244,171);
+    -fx-font-size: 14px;
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Button.chooseButton{
+    -fx-font-weight: 600;
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 17px;
+    -fx-background-color: linear-gradient(red, transparent),
+                        linear-gradient(to top left, lime, transparent),
+                        linear-gradient(to top right, blue, transparent);
+-fx-cursor: HAND;
+}
+
+Button.toLoginButton{
+    -fx-font-weight: 600;
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 20px;
+    -fx-background-color: linear-gradient(rgba(135, 60, 255, 0.4), rgba(135, 60, 255, 0.0) 80%),
+                        linear-gradient(rgba(120, 155, 255, 0.9) 25%, rgba(255, 160, 65, 0.9) 75%);
+-fx-cursor: HAND;
+}
+
+Button.createButton{
+    -fx-font-size: 13px;
+    -fx-background-color: linear-gradient(red, transparent),
+                        linear-gradient(to top left, lime, transparent),
+                        linear-gradient(to top right, blue, transparent);
+    -fx-cursor: HAND;
+}
+
+Label.createLabel{
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 17px;
+}
+
+TextField.createText{
+    -fx-background-color: rgb(255,244,171);
+}
+
+Label.loginsLabel{
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 17px;
+}
+
+TextField.userText{
+    -fx-background-color: rgb(255,244,171);
+}
+
+PasswordField.passwordText{
+    -fx-background-color: rgb(255,244,171);
+}
+
+Button.loginningButton{
+    -fx-font-weight: 600;
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 20px;
+    -fx-background-color: linear-gradient(rgba(135, 60, 255, 0.4), rgba(135, 60, 255, 0.0) 80%),
+                        linear-gradient(rgba(120, 155, 255, 0.9) 25%, rgba(255, 160, 65, 0.9) 75%);
+    -fx-cursor: HAND;
+}
+
+Label.choosingWarning{
+    -fx-font-size: 25px;
+    -fx-background-color: rgb(255,244,171);
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Label.existsWarning{
+    -fx-font-size: 25px;
+    -fx-background-color: rgb(255,244,171);
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Label.creatingWarning{
+    -fx-font-size: 17px;
+    -fx-background-color: rgb(255,244,171);
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Label.notLogined{
+    -fx-font-size: 13px;
+    -fx-background-color: RED;
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Label.logined{
+    -fx-font-size: 17px;
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Label{
+    -fx-font-size: 17px;
+    -fx-font-family: "Bradley Hand ITC";
+}
+
+Button{
+    -fx-font-weight: 600;
+    -fx-font-family: "Bradley Hand ITC";
+    -fx-font-size: 15px;
+    -fx-background-color: linear-gradient(rgba(135, 60, 255, 0.4), rgba(135, 60, 255, 0.0) 80%),
+    linear-gradient(rgba(120, 155, 255, 0.9) 25%, rgba(255, 160, 65, 0.9) 75%);
+    -fx-cursor: HAND;
+}
+
+TextField{
+    -fx-background-color: rgb(255,244,171);
+}
+
+TableView{
+    -fx-background-color: rgb(255,244,171);
+}
+
+ListView{
+    -fx-background-color: rgb(255,244,171);
+}

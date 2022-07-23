@@ -1,0 +1,244 @@
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        String trainPath = args[0];
+        String testPath = args[1];
+
+        Bayes b = new Bayes(trainPath);
+        b.testAlgorithm(testPath);
+
+        while (true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Put your text -> :");
+            String str = sc.nextLine();
+
+            System.out.println(b.getAnswer(str));
+        }
+    }
+}
+
+public class Bayes {
+    private List<HashSet<String>> attributes;
+    private Map<String, Integer> answers;
+    private int sumAnswers;
+    private List<Map<String, Map<String, Integer>>> mainList;
+
+
+    public Bayes(String pathFileTrain){
+        this.attributes = Util.getAllAttributes(pathFileTrain);
+        this.mainList = Util.doListMap(pathFileTrain);
+        this.answers = Util.getCountAnswer(pathFileTrain);
+        sumAnswers = getSumInMap(answers);
+    }
+
+    public void testAlgorithm(String pathTest){
+        List<String> strList = Util.readFile(pathTest);
+        for (String str: strList) {
+            System.out.println(str + " -> " + getAnswer(str));
+        }
+    }
+
+    public String getAnswer(String str){
+
+        if (isAttributes(str)) {
+            Map<String, Double> chances = new HashMap<>();
+
+            String[] strings = str.split(",");
+            double chance = 0;
+            for (String answer : answers.keySet()) {
+
+                chance = (double) answers.get(answer) / sumAnswers;
+
+                for (int j = 0; j < strings.length - 1; j++) {
+
+                    if ((double) mainList.get(j).get(strings[j]).get(answer) / answers.get(answer) == 0) {
+                        chance *= laplace(j, answers.get(answer));
+                    } else {
+                        chance *= (double) mainList.get(j).get(strings[j]).get(answer) / answers.get(answer);
+                    }
+
+                }
+                chances.put(answer, chance);
+            }
+
+            return Util.getBiggerKey(chances);
+        }
+
+        return "Podano zle atrybuty!";
+
+    }
+
+    private int getSumInMap(Map<String, Integer> listMaps){
+        int sumAnswers = 0;
+
+        for (String answer: listMaps.keySet()) {
+            sumAnswers += listMaps.get(answer);
+        }
+
+        return sumAnswers;
+    }
+
+    private double laplace(int numberAtrybut, int answerNumber){
+        double outDouble = 0.00000001;
+
+        outDouble = (double) 1/(answerNumber + mainList.get(numberAtrybut).size());
+
+        return outDouble;
+    }
+
+    private boolean isAttributes(String strMain){
+        boolean des = true;
+        String[] strings = strMain.split(",");
+        for (int i = 0; i < strings.length; i++) {
+                for (int k = 0; k < attributes.get(i).size(); k++) {
+                    if (!attributes.get(i).contains(strings[i])){
+                        des = false;
+                    }
+            }
+        }
+        return des;
+    }
+
+}
+
+public class Util {
+
+    public static List<String> readFile(String readPath) {
+        List<String> outList = new ArrayList<>();
+        try {
+            File file = new File(readPath);
+
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String line = reader.readLine();
+
+            while (line != null) {
+                outList.add(line);
+                line = reader.readLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outList;
+    }
+
+    public static List<HashSet<String>> getAllAttributes(String readPath){
+
+        List<HashSet<String>> outList = new ArrayList<>();
+        List<String> strList = readFile(readPath);
+
+        for (String line : strList) {
+
+                String[] strings = line.split(",");
+
+                for (int i = 0; i < strings.length; i++) {
+                    if (outList.size() <= i){
+                        outList.add(i, new HashSet<>());
+                    }
+                    outList.get(i).add(strings[i]);
+
+                }
+        }
+        return outList;
+    }
+
+    public static Map<String, Integer> getCountAnswer(String trainPath){
+        List<String> strList = readFile(trainPath);
+        Map<String, Integer> outList = new HashMap<>();
+
+        for (int i = 0; i < strList.size(); i++) {
+            String[] strings = strList.get(i).split(",");
+
+            if (outList.size() == 0){
+                outList.put(strings[strings.length-1], 0);
+            }
+
+            for (int j = 0; j < outList.size(); j++) {
+                outList.put(strings[strings.length-1], 0);
+            }
+
+        }
+
+        for (int i = 0; i < strList.size(); i++) {
+            String[] strings = strList.get(i).split(",");
+            outList.put(strings[strings.length-1], outList.get(strings[strings.length-1])+1);
+
+        }
+
+        return outList;
+    }
+
+    public static List<Map<String,Map<String, Integer>>> doListMap(String readPath){
+
+        List<HashSet<String>> parsedList = getAllAttributes(readPath);
+        List<String> strList = readFile(readPath);
+        List<Map<String, Map<String, Integer>>> outList = new ArrayList<>();
+
+        for (int i = 0; i < parsedList.size()-1; i++) {
+
+            Iterator<String> iterator = parsedList.get(i).iterator();
+
+            if (outList.size() <= i ){
+                outList.add(new HashMap<>());
+            }
+
+            while (iterator.hasNext()){
+                String strTmp = iterator.next();
+
+                if (!outList.get(i).containsKey(strTmp)){
+                    outList.get(i).put(strTmp, new HashMap<>());
+
+
+                    for (int j = 0; j < parsedList.get(parsedList.size()-1).size(); j++) {
+
+                        List<String> keys = parsedList.get(parsedList.size()-1).stream().toList();
+
+                        for (String key: keys) {
+                            outList.get(i).get(strTmp).put(key, 0);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        for (String str : strList) {
+            String[] strings = str.split(",");
+
+            for (int t = 0; t < strings.length-1; t++) {
+
+                for (int i = 0; i < outList.size(); i++) {
+                    for (String artykow : outList.get(i).keySet()) {
+                        if (artykow.equals(strings[t])){
+                            outList.get(i).get(artykow).put(strings[strings.length-1], outList.get(i).get(artykow).get(strings[strings.length-1]) + 1 );
+                        }
+                    }
+                }
+            }
+        }
+
+        return outList;
+    }
+
+    public static String getBiggerKey(Map<String, Double> map){
+
+        String[] keys = map.keySet().toArray(new String[0]);
+        String biggerKey = keys[0];
+
+        for (int i = 1; i < keys.length; i++) {
+            if (map.get(biggerKey) < map.get(keys[i])){
+                biggerKey = keys[i];
+            }
+        }
+
+        return biggerKey;
+    }
+
+}
