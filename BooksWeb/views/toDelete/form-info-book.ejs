@@ -1,0 +1,76 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+  <h2> Szczegóły książki</h2>
+  <form class="form">
+    <table class="table-inputs">
+      <tbody>
+    <tr>
+      <td>
+        <label for="Name">Nazwa: <span class="symbol-required">*</span></label>
+        <input type="text" name="Name" value="Złoto" id="Name" disabled>
+        <span id="errorName" class="error-text"></span>
+
+      </td>
+      <td>
+        <label for="Writting_date">Kiedy była napisana: <span class="symbol-required">*</span></label>
+        <input type="date" name="Writting_date" value="2005-10-02" id="Writting_date" disabled>
+        <span id="errorWritting_date" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Language">Język: <span class="symbol-required">*</span></label>
+        <input type="text" name="Language" value="Polski" id="Language" disabled>
+        <span id="errorLanguage" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Bestseller">Bestseller: </label>
+        <input type="checkbox" name="Bestseller" id="Bestseller" disabled >
+      </td>
+      <td>
+        <a href="/books/edit/1" class="list-actions-button-edit">Edytuj </a>
+      </td>
+    </tr>
+
+
+      </tbody>
+    </table>
+
+  </form>
+
+  <h2> Szczegóły napisania</h2>
+  <table class="table-list">
+    <thead>
+    <tr>
+      <th>Nazwisko autora</th>
+      <th>Imie autora</th>
+      <th>Publisher</th>
+      <th>Ilość</th>
+      <th>Czy jest w sprzedaży</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <td>Narowski</td>
+      <td>Adrian</td>
+      <td>DDD publish</td>
+      <td>100</td>
+      <td>Tak</td>
+    </tr>
+
+    <tr>
+      <td>Wysoki</td>
+      <td>Stanisław</td>
+      <td>DDD publish</td>
+      <td>100</td>
+      <td>Tak</td>
+    </tr>
+    </tbody>
+  </table>
+  <p><a href="/books" class="button-return">Powrót </a></p>
+
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

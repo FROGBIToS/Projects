@@ -1,0 +1,67 @@
+<%- include('../../fragments/header.ejs') %>
+
+
+
+
+<main>
+  <h2> Nowe powiązanie </h2>
+  <form class="form">
+    <table class="table-inputs">
+      <tbody>
+    <tr>
+      <td>
+        <label for="AuthorLastName">Nazwisko autora: <span class="symbol-required">*</span></label>
+        <select name="AuthorLastName" id="AuthorLastName" required>
+          <option value="" > * Wybierz nazwisko autora * </option>
+          <option  value="1" selected> Narowski</option>
+          <option value="2" >Wysoki</option>
+          <option value="3" >Ferigat</option>
+          <option value="4" >Hulajnoga</option>
+
+        </select>
+        <span id="errorAuthorLastName" class="error-text"></span>
+
+      </td>
+      <td>
+        <label for="BookName">Nazwa książki: <span class="symbol-required">*</span></label>
+        <select name="BookName" id="BookName" required>
+          <option value="" >* Wybierz nazwę książki *</option>
+          <option value="2" selected> Złoto </option>
+          <option value="3">Moja kara</option>
+          <option value="4">Stara bajka</option>
+          <option >Crazy</option>
+
+        </select>
+        <span id="errorBookName" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Publisher">Publisher: <span class="symbol-required">*</span></label>
+        <input type="text" name="Publisher" id="Publisher" value="DDD publish" required>
+        <span id="errorPublisher" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Amount_copy">Ilość: <span class="symbol-required">*</span></label>
+        <input type="number" name="Amount_copy" id="Amount_copy" value="100" required>
+        <span id="errorAmount_copy" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Is_Sold">W sprzedaży: </label>
+        <input type="checkbox" name="Is_Sold" id="Is_Sold" checked>
+      </td>
+
+      <td>
+        <div class="form-buttons">
+          <input type="submit" value="Zmień" class="form-button-submit">
+          <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+          <p id="errorSummary"></p>
+        </div>
+      </td>
+    </tr>
+      </tbody>
+    </table>
+  </form>
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

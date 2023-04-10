@@ -1,0 +1,136 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+    <script type="application/javascript" src="public/js/validationAuthorForm.js"></script>
+
+    <h2><%= pageTitle %></h2>
+
+    <form class="form" method="post" action="<%= formAction %>" novalidate>
+        <input type="hidden" name="Id_Author_Book" value="<%= authorBook.Id_Author_Book %>">
+        <table class="table-inputs">
+            <tbody>
+            <tr>
+                <td>
+                    <label for="Id_Author">Nazwisko autora: <span class="symbol-required">*</span></label>
+                    <select name="Id_Author" id="Id_Author" <%= (formMode == 'info') ? 'disabled' : '' %>
+                            class="<%= (validationErrors.find(err => err.path.includes('Id_Author'))) ? 'error-input' : '' %>" required>
+                        <% if(formMode == 'add'){ %>
+                            <option value="" selected>* Wybierz nazwisko autora *</option>
+                            <% } %>
+                        <% for (let i=0; i < allauthors.length; i++ ) { let author = allauthors[i]; %>
+                        <option value="<%= author.Id_Author %>" label="<%= author.FirstName + ' ' + author.LastName %>"
+                        <%= (authorBook.Id_Author == author.Id_Author) ? 'selected' : '' %>></option>
+                        <% } %>
+                    </select>
+                    <span id="errorAuthorLastName" class="errors-text">
+                        <% if (validationErrors.find(err => err.path.includes('Id_Author'))) { %>
+                            <%= validationErrors.find(err => err.path.includes('Id_Author')).message%>
+                        <% } %>
+                    </span>
+
+
+                </td>
+                <td>
+                    <label for="Id_Book">Nazwa książki: <span class="symbol-required">*</span></label>
+                    <select name="Id_Book" id="Id_Book" <%= (formMode == 'info') ? 'disabled' : '' %>
+                            class="<%= (validationErrors.find(err => err.path.includes('Id_Book'))) ? 'error-input' : '' %>"required>
+                        <% if(formMode == 'add'){ %>
+                        <option value="" selected>* Wybierz nazwę książki *</option>
+                            <% } %>
+                        <% for (let i=0; i < allbooks.length; i++ ) { let book = allbooks[i]; %>
+                        <option value="<%= book.Id_Book %>" label="<%= book.Name %>"
+                                <%= (authorBook.Id_Book == book.Id_Book) ? 'selected' : '' %>></option>
+                        <% } %>
+                    </select>
+                    <span id="errorBookName" class="errors-text">
+                        <% if (validationErrors.find(err => err.path.includes('Id_Book'))) { %>
+                            <%= validationErrors.find(err => err.path.includes('Id_Book')).message%>
+                        <% } %>
+                    </span>
+
+                </td>
+                <td>
+                    <label for="Publisher">Publisher: <span class="symbol-required">*</span></label>
+                    <input type="text" name="Publisher" id="Publisher" placeholder="2-40 znaków" value="<%= authorBook.Publisher %>"
+                            <%= (formMode == 'info') ? 'disabled' : '' %>
+                           class="<%= (validationErrors.find(err => err.path.includes('Publisher'))) ? 'error-input' : '' %>"required>
+                    <span id="errorPublisher" class="errors-text">
+                        <% if (validationErrors.find(err => err.path.includes('Publisher'))) { %>
+                            <%= validationErrors.find(err => err.path.includes('Publisher')).message%>
+                        <% } %>
+                    </span>
+
+                </td>
+                <td>
+                    <label for="Amount_copy">Ilość:<span class="symbol-required">*</span></label>
+                    <input type="number" name="Amount_copy" id="Amount_copy" value="<%= authorBook.Amount_copy %>"
+                            <%= (formMode == 'info') ? 'disabled' : '' %>
+                           class="<%= (validationErrors.find(err => err.path.includes('Amount_copy'))) ? 'error-input' : '' %>"required>
+                    <span id="errorAmount_copy" class="errors-text">
+                        <% if (validationErrors.find(err => err.path.includes('Amount_copy'))) { %>
+                            <%= validationErrors.find(err => err.path.includes('Amount_copy')).message%>
+                        <% } %>
+                    </span>
+                </td>
+                <td>
+                    <label for="Is_Sold">Wyprzedane: </label>
+                    <input type="checkbox" name="Is_Sold" id="Is_Sold" <%= (authorBook.Is_Sold == 1) ? 'checked' : '' %> <%= (formMode == 'info') ? 'disabled' : '' %>>
+                </td>
+
+                <td>
+                    <% if (formMode == 'add' || formMode == 'edit') {%>
+                    <div class="form-buttons">
+                        <input type="submit" value="<%= (formMode == 'add') ? 'Dodaj' : 'Edytuj' %>" class="form-button-submit">
+                        <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+                        <p id="errorSummary" class="errors-text"></p>
+                    </div>
+                    <% } %>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <% if (formMode === 'info') { %>
+        <a href="/authorsBooks/edit/<%= authorBook.Id_Author_Book %>" class="list-actions-button-edit">Edytuj </a>
+    <% } %>
+    <% if (formMode === 'info') { %>
+        <h2> Szczegóły powiązania</h2>
+        <table class="table-list">
+            <thead>
+            <tr>
+                <th>Nazwa Książki</th>
+                <th>Kiedy była napisana</th>
+                <th>Język</th>
+                <th>Bestseller</th>
+                <th>Imie autora</th>
+                <th>Nazwisko autora</th>
+                <th>Email</th>
+                <th>Publisher</th>
+                <th>Ilość</th>
+                <th>Wyprzedane</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td><a href="/books/details/<%= authorBook.Id_Book %>"><%= authorBook.Name %></a></td>
+                <td><%= (authorBook.Writting_date == null || authorBook.Writting_date == '') ? authorBook.Writting_date : (authorBook.Writting_date.toString().match(/^\d{4}-\d{2}-\d{2}$/) != null) ? authorBook.Writting_date : authorBook.Writting_date.toISOString().split('T')[0] %></td>
+                <td><%= authorBook.Language %></td>
+                <td><%= (authorBook.Is_Bestseller == 1) ? 'Tak' : 'Nie' %></td>
+                <td><a href="/authors/details/<%= authorBook.Id_Author %>"><%= authorBook.FirstName %></a></td>
+                <td><%= authorBook.LastName%></td>
+                <td><%= authorBook.Email%></td>
+                <td><%= authorBook.Publisher %></td>
+                <td><%= authorBook.Amount_Copy %></td>
+                <td><%= (authorBook.Is_Sold == 1 ) ? 'Tak' : 'Nie' %></td>
+            </tr>
+            </tbody>
+        </table>
+        <p><a href="/authorsBooks" class="button-return">Powrót </a></p>
+    <% } %>
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

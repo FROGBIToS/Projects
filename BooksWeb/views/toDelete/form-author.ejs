@@ -1,0 +1,44 @@
+<%- include('../../fragments/header.ejs') %>
+
+
+
+<main>
+            <h2> Nowy autor</h2>
+            <form class="form" novalidate onsubmit="return validateForm();">
+                <table class="table-inputs">
+                    <tbody>
+                <tr>
+                    <td>
+                        <label for="FirstName">FirstName: <span class="symbol-required">*</span></label>
+                        <input type="text" name="FirstName" id="FirstName" placeholder="2-30 znaków" required>
+                        <span id="errorFirstName" class="errors-text"></span>
+                        
+                    </td>
+                    <td>
+                        <label for="LastName">LastName: <span class="symbol-required">*</span></label>
+                        <input type="text" name="LastName" id="LastName" placeholder="2-30 znaków" required>
+                        <span id="errorLastName" class="errors-text"></span>
+                    </td>
+                    <td>
+                        <label for="Email">Email: <span class="symbol-required">*</span></label>
+                        <input type="email" name="Email" id="Email" placeholder="5-50 znaków" required>
+                        <span id="errorEmail" class="errors-text"></span>
+                    </td>
+                    <td>
+                        <div class="form-buttons">
+                            <input type="submit" value="Dodaj" class="form-button-submit">
+                            <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+                            <p id="errorSummary" class="errors-text"></p>
+                        </div>
+                    </td>
+                </tr>
+                    </tbody>
+                </table>
+
+
+            </form>
+
+
+        </main>
+
+<%- include('../../fragments/footer.ejs') %>

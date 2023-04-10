@@ -1,0 +1,39 @@
+<%- include('../../fragments/header.ejs') %>
+
+        <main>
+            <h2>Lista książek</h2>
+            <table class="table-list">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Data napisania</th>
+                        <th>Język</th>
+                        <th>Bestseller</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <% for (let book of books) { %>
+                <tr>
+                    <td><%- book.Name %></td>
+                    <td><%- book.Writting_date.toISOString().split('T') [0] %></td>
+                    <td><%- book.Language %></td>
+                    <td><%- (book.Is_Bestseller == null) ? 'Nie wiadomo' : (book.Is_Bestseller == 1) ? 'Tak' : 'Nie' %></td>
+                <td>
+                            <ul class="list-actions">
+                                <li> <a href="/books/details/<%- book.Id_Book %>" class="list-actions-button-details">Szczegóły</a></li>
+                                <li> <a href="/books/edit/<%- book.Id_Book %>" class="list-actions-button-edit">Edytuj</a></li>
+                                <li> <a href="/books/delete/<%- book.Id_Book %>" class="list-actions-button-delete">Usuń</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                <% }%>
+                </tbody>
+            </table>
+
+            <p><a href="/books/add" class="button-add"> Dodaj nową książkę </a></p>
+
+        </main>
+
+<%- include('../../fragments/footer.ejs') %>

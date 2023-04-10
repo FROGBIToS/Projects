@@ -1,0 +1,95 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+  <script type="application/javascript" src="public/js/validationAuthorForm.js"></script>
+
+  <h2><%= pageTitle %></h2>
+
+  <form class="form" method="post" action="<%= formAction %>" novalidate>
+    <input type="hidden" name="Id_Author" value="<%= author.Id_Author %>">
+      <table class="table-inputs">
+        <tbody>
+        <tr>
+          <td>
+            <label for="FirstName">FirstName: <span class="symbol-required">*</span></label>
+            <input type="text" name="FirstName" id="FirstName" placeholder="2-30 znaków" value="<%= author.FirstName %>"
+                    <%= (formMode == 'info') ? 'disabled' : '' %>
+                   class="<%= (validationErrors.find(err => err.path.includes('FirstName'))) ? 'error-input' : '' %>" required>
+            <span id="errorFirstName" class="errors-text">
+              <% if (validationErrors.find(err => err.path.includes('FirstName'))) { %>
+                <%= validationErrors.find(err => err.path.includes('FirstName')).message%>
+              <% } %>
+            </span>
+
+          </td>
+          <td>
+            <label for="LastName">LastName: <span class="symbol-required">*</span></label>
+            <input type="text" name="LastName" id="LastName" placeholder="2-30 znaków" value="<%= author.LastName %>"
+                    <%= (formMode == 'info') ? 'disabled' : '' %>
+                   class="<%= (validationErrors.find(err => err.path.includes('LastName'))) ? 'error-input' : '' %>" required>
+            <span id="errorLastName" class="errors-text">
+              <% if (validationErrors.find(err => err.path.includes('LastName'))) { %>
+                <%= validationErrors.find(err => err.path.includes('LastName')).message%>
+              <% } %>
+            </span>
+          </td>
+          <td>
+            <label for="Email">Email: <span class="symbol-required">*</span></label>
+            <input type="email" name="Email" id="Email" placeholder="5-50 znaków" value="<%= author.Email %>"
+                    <%= (formMode == 'info') ? 'disabled' : '' %>
+                   class="<%= (validationErrors.find(err => err.path.includes('Email'))) ? 'error-input' : '' %>"required>
+            <span id="errorEmail" class="errors-text">
+              <% if (validationErrors.find(err => err.path.includes('Email'))) { %>
+                <%= validationErrors.find(err => err.path.includes('Email')).message%>
+              <% } %>
+            </span>
+          </td>
+          <td>
+            <% if (formMode == 'edit' || formMode == 'add') { %>
+            <div class="form-buttons">
+              <input type="submit" value="<%= (formMode == 'edit') ? 'Edytuj' : 'Dodaj' %>" class="form-button-submit">
+              <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+              <p id="errorSummary" class="errors-text"></p>
+            </div>
+            <% } %>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+
+    </form>
+
+  <% if (formMode === 'info') { %>
+  <a href="/authors/edit/<%= author.Id_Author %>" class="list-actions-button-edit">Edytuj </a>
+  <% } %>
+  <% if (formMode === 'info') { %>
+    <h2> Szczegóły autora</h2>
+    <table class="table-list">
+      <thead>
+      <tr>
+        <th>Nazwa książki</th>
+        <th>Data napisania</th>
+        <th>Język</th>
+        <th>Bestseller</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% for (let book of author.books) { %>
+        <tr>
+          <td><a href="/books/details/<%= book.Id_Book %>"><%= book.Name %></a></td>
+          <td><%= (book.Writting_date === null) ? '' : book.Writting_date.toISOString().split('T')[0] %></td>
+          <td><%= book.Language %></td>
+          <td><%= book.Is_Bestseller %></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+    <p><a href="/authors" class="button-return">Powrót </a></p>
+  <% } %>
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

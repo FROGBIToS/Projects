@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script type="application/javascript" src="public/js/validationCommon.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Best Books</title>
+
+</head>
+
+<body>
+<header>
+  <h1>
+    Best Books
+  </h1>
+  <img src="/images/logo.png" alt="Best Books logo">
+</header>
+
+<nav>
+  <ul>
+    <li><a href="/" class="<%= navLocation == 'main' ? 'active' : ''%>">Strona główna </a></li>
+    <li><a href="/books" class="<%= navLocation == 'book' ? 'active' : ''%>">Books </a></li>
+    <li><a href="/authors" class="<%= navLocation == 'author' ? 'active' : ''%>">Authors </a></li>
+    <li><a href="/authorsBooks" class="<%= navLocation == 'authorBook' ? 'active' : ''%>">Author_Books </a></li>
+  </ul>
+</nav>

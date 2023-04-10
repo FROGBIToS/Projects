@@ -1,0 +1,72 @@
+<%- include('../../fragments/header.ejs') %>
+
+
+
+
+<main>
+            <h2> Nowe powiązanie </h2>
+            <form class="form" novalidate onsubmit="return validateForm();">
+                <table class="table-inputs">
+                    <tbody>
+                <tr>
+                    <td>
+                        <label for="AuthorLastName">Nazwisko autora: <span class="symbol-required">*</span></label>
+                        <select name="AuthorLastName" id="AuthorLastName" required>
+                            <option value="" selected>* Wybierz nazwisko autora *</option>
+                            <option value="1">Narowski</option>
+                            <option value="2">Wysoki</option>
+                            <option value="3">Ferigat</option>
+                            <option value="4">Hulajnoga</option>
+
+                        </select>
+                        <span id="errorAuthorLastName" class="errors-text"></span>
+
+
+                    </td>
+                    <td>
+                        <label for="BookName">Nazwa książki: <span class="symbol-required">*</span></label>
+                        <select name="BookName" id="BookName" required>
+                            <option value="" selected>* Wybierz nazwę książki *</option>
+                            <option value="1">Złoto</option>
+                            <option value="2">Moja kara</option>
+                            <option value="3">Stara bajka</option>
+                            <option value="4">Crazy</option>
+
+                        </select>
+                        <span id="errorBookName" class="errors-text"></span>
+
+                    </td>
+                    <td>
+                        <label for="Publisher">Publisher: <span class="symbol-required">*</span></label>
+                        <input type="text" name="Publisher" id="Publisher" placeholder="2-40 znaków" required>
+                        <span id="errorPublisher" class="errors-text"></span>
+
+                    </td>
+                    <td>
+                        <label for="Amount_copy">Ilość:<span class="symbol-required">*</span></label>
+                        <input type="number" name="Amount_copy" id="Amount_copy" required>
+                        <span id="errorAmount_copy" class="errors-text"></span>
+                    </td>
+                    <td>
+                        <label for="Is_Sold">W sprzedaży: </label>
+                        <input type="checkbox" name="Is_Sold" id="Is_Sold">
+                    </td>
+
+                    <td>
+                        <div class="form-buttons">
+                            <input type="submit" value="Dodaj" class="form-button-submit">
+                            <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+                            <p id="errorSummary" class="errors-text"></p>
+                        </div>
+                    </td>
+                </tr>
+                    </tbody>
+                </table>
+
+
+            </form>
+
+
+        </main>
+
+<%- include('../../fragments/footer.ejs') %>

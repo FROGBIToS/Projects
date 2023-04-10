@@ -1,0 +1,106 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+    <script type="application/javascript" src="public/js/validationBookForm.js"></script>
+
+    <h2><%= pageTitle %></h2>
+
+    <form class="form" method="post" action="<%= formAction %>" novalidate>
+        <input type="hidden" name="Id_Book" value="<%= book.Id_Book %>">
+        <table class="table-inputs">
+            <tbody>
+            <tr>
+                <td>
+                    <label for="Name">Nazwa: <span class="symbol-required">*</span></label>
+                    <input type="text" name="Name" id="Name" placeholder="2-25 znaków" value="<%= book.Name %>"
+                           <%= (formMode == 'info') ? 'disabled' : '' %>
+                            class="<%= (validationErrors.find(err => err.path.includes('Name'))) ? 'error-input' : '' %>" required>
+                    <span id="errorName" class="errors-text">
+                    <% if (validationErrors.find(err => err.path.includes('Name'))) { %>
+                        <%= validationErrors.find(err => err.path.includes('Name')).message%>
+                    <% } %>
+                    </span>
+
+                </td>
+                <td>
+                    <label for="Writting_date">Kiedy była napisana:<span class="symbol-required">*</span></label>
+                    <input type="date" name="Writting_date" id="Writting_date" value="<%= (book.Writting_date == null || book.Writting_date == '') ? book.Writting_date : (book.Writting_date.toString().match(/^\d{4}-\d{2}-\d{2}$/) != null) ? book.Writting_date : book.Writting_date.toISOString().split('T')[0] %>"
+                            <%= (formMode == 'info') ? 'disabled' : '' %>
+                           class="<%= (validationErrors.find(err => err.path.includes('Writting_date'))) ? 'error-input' : '' %>" required>
+                    <span id="errorWritting_date" class="errors-text">
+                        <% if (validationErrors.find(err => err.path.includes('Writting_date'))) { %>
+                            <%= validationErrors.find(err => err.path.includes('Writting_date')).message%>
+                        <% } %>
+                    </span>
+                </td>
+                <td>
+                    <label for="Language">Język: <span class="symbol-required">*</span></label>
+                    <input type="text" name="Language" id="Language" placeholder="2-30 znaków" value="<%= book.Language %>"
+                            <%= (formMode == 'info') ? 'disabled' : '' %>
+                           class="<%= (validationErrors.find(err => err.path.includes('Language'))) ? 'error-input' : '' %>" required>
+                    <span id="errorLanguage" class="errors-text">
+                        <% if (validationErrors.find(err => err.path.includes('Language'))) { %>
+                            <%= validationErrors.find(err => err.path.includes('Language')).message%>
+                        <% } %>
+                    </span>
+                </td>
+                <td>
+                    <label for="Is_Bestseller">Bestseller: </label>
+                    <select name="Is_Bestseller" id="Is_Bestseller" <%= (formMode == 'info') ? 'disabled' : '' %> required>
+                        <% if (formMode != 'edit') { %>
+                            <option value="" selected>* Czy jest bestsellerem *</option>
+                        <% } %>
+                        <option value="0" <%= (book.Is_Bestseller == 0) ? 'selected': '' %> >Nie</option>
+                        <option value="1" <%= (book.Is_Bestseller == 1) ? 'selected': '' %> >Tak</option>
+                        <option value="" <%= (formMode == 'add') ? '' : (book.Is_Bestseller == null) ? 'selected': '' %>>Nie wiadomo</option>
+                    </select>
+                </td>
+                <td>
+                    <% if (formMode == 'edit' || formMode == 'add') { %>
+                    <div class="form-buttons">
+                        <p id="errorSummary" class="errors-text"></p>
+                        <input type="submit" value="<%= (formMode == 'edit') ? 'Edytuj' : 'Dodaj' %>" class="form-button-submit">
+                        <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+                    </div>
+                    <% } %>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <% if (formMode == 'info') { %>
+        <a href="/books/edit/<%= book.Id_Book %>" class="list-actions-button-edit">Edytuj </a>
+    <% } %>
+    <% if (formMode == 'info') { %>
+        <h2> Szczegóły napisania</h2>
+        <table class="table-list">
+            <thead>
+            <tr>
+                <th>Nazwisko autora</th>
+                <th>Imie autora</th>
+                <th>Publisher</th>
+                <th>Ilość</th>
+                <th>Czy jest w sprzedaży</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% for (let a of book.authorBooks) { %>
+                <tr>
+                    <td><a href="/authors/details/<%= a.Id_Author %>"><%= a.LastName %></a></td>
+                    <td><%= a.FirstName %></td>
+                    <td><%= a.Publisher %></td>
+                    <td><%= a.Amount_Copy %></td>
+                    <td><%= (a.Is_Sold === null) ? '' : (a.is_sold == 1) ? 'Tak' : 'Nie' %></td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+        <p><a href="/books" class="button-return">Powrót </a></p>
+    <% } %>
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

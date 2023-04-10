@@ -1,0 +1,41 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+            <h2>Lista autorów i ich książek</h2>
+            <table class="table-list">
+                <thead>
+                    <tr>
+                        <th>Nazwisko autora</th>
+                        <th>Nazwa książki</th>
+                        <th>Publisher</th>
+                        <th>Ilość</th>
+                        <th>Wyprzedane</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <% for (let authorBook of authorBooks) { %>
+                    <tr>
+                        <td><%- authorBook.LastName %></td>
+                        <td><%- authorBook.Name %></td>
+                        <td><%- authorBook.Publisher %></td>
+                        <td><%- authorBook.Amount_Copy %></td>
+                        <td><%- (authorBook.Is_Sold === 1) ? 'Tak' : 'Nie' %></td>
+                        <td>
+                            <ul class="list-actions">
+                                <li> <a href="/authorsBooks/details/<%- authorBook.Id_Author_Book %>" class="list-actions-button-details">Szczegóły</a></li>
+                                <li> <a href="/authorsBooks/edit/<%- authorBook.Id_Author_Book %>" class="list-actions-button-edit">Edytuj</a></li>
+                                <li> <a href="/authorsBooks/delete/<%- authorBook.Id_Author_Book %>" class="list-actions-button-delete">Usuń</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+
+            <p><a href="/authorsBooks/add" class="button-add"> Dodaj nowe powiązanie </a></p>
+
+        </main>
+
+<%- include('../../fragments/footer.ejs') %>

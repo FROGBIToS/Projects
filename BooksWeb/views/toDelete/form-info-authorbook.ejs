@@ -1,0 +1,96 @@
+<%- include('../../fragments/header.ejs') %>
+
+<main>
+  <h2> Szczegóły powiązania</h2>
+  <form class="form">
+    <table class="table-inputs">
+      <tbody>
+    <tr>
+      <td>
+        <label for="AuthorLastName">Nazwisko autora: <span class="symbol-required">*</span></label>
+        <select name="AuthorLastName" id="AuthorLastName" required>
+          <option value=""> * Wybierz nazwisko autora * </option>
+          <option  value="1" selected> Narowski</option>
+          <option value="2" >Wysoki</option>
+          <option value="3" >Ferigat</option>
+          <option value="4" >Hulajnoga</option>
+
+        </select>
+        <span id="errorAuthorLastName"></span>
+
+      </td>
+      <td>
+        <label for="BookName">Nazwa książki: <span class="symbol-required">*</span></label>
+        <select name="BookName" id="BookName" required>
+          <option value="">* Wybierz nazwę książki *</option>
+          <option value="1" selected> Złoto </option>
+          <option value="2">Moja kara</option>
+          <option value="3">Stara bajka</option>
+          <option value="4">Crazy</option>
+
+        </select>
+        <span id="errorBookName"></span>
+      </td>
+      <td>
+        <label for="Publisher">Publisher: <span class="symbol-required">*</span></label>
+        <input type="text" name="Publisher" id="Publisher" value="DDD publish" required>
+        <span id="errorPublisher" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Amount_copy">Ilość: <span class="symbol-required">*</span></label>
+        <input type="number" name="Amount_copy" id="Amount_copy" value="100" required>
+        <span id="errorAmount_copy" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Is_Sold">W sprzedaży: </label>
+        <input type="checkbox" name="Is_Sold" id="Is_Sold" checked>
+      </td>
+      <td>
+        <p><a href="/authorsBooks/edit/1" class="list-actions-button-edit"> Edytuj </a></p>
+      </td>
+    </tr>
+      </tbody>
+    </table>
+
+
+
+  </form>
+  <h2> Szczegóły powiązania</h2>
+  <table class="table-list">
+    <thead>
+    <tr>
+      <th>Nazwa Książki</th>
+      <th>Kiedy była napisana</th>
+      <th>Język</th>
+      <th>Bestseller</th>
+      <th>Imie autora</th>
+      <th>Nazwisko autora</th>
+      <th>Email</th>
+      <th>Publisher</th>
+      <th>Ilość</th>
+      <th>Czy jest w sprzedaży</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <td>Złoto</td>
+      <td>02/10/2005</td>
+      <td>Polski</td>
+      <td>Nie</td>
+      <td>Adrian</td>
+      <td>Narowski</td>
+      <td>adNarow@gmail.com</td>
+      <td>DDD publish</td>
+      <td>100</td>
+      <td>Tak</td>
+    </tr>
+    </tbody>
+  </table>
+  <p><a href="/authorsBooks" class="button-return">Powrót </a></p>
+
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

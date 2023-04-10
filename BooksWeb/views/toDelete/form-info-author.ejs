@@ -1,0 +1,61 @@
+<%- include('../../fragments/header.ejs') %>
+
+
+
+<main>
+  <h2> Szczegóły autora</h2>
+  <form class="form">
+    <table class="table-inputs">
+      <tbody>
+    <tr>
+      <td>
+        <label for="FirstName">FirstName: <span class="symbol-required">*</span></label>
+        <input type="text" name="FirstName" id="FirstName" value="Adrian" disabled>
+        <span id="errorFirstName" class="error-text"></span>
+
+      </td>
+      <td>
+        <label for="LastName">LastName: <span class="symbol-required">*</span></label>
+        <input type="text" name="LastName" id="LastName" value="Narowski" disabled>
+        <span id="errorLastName" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Email">Email: <span class="symbol-required">*</span></label>
+        <input type="email" name="Email" id="Email" value="adNarow@gmail.com" disabled>
+        <span id="errorEmail" class="error-text"></span>
+      </td>
+      <td>
+        <p><a href="/authors/edit/1" class="list-actions-button-edit">Edytuj </a></p>
+      </td>
+    </tr>
+      </tbody>
+    </table>
+
+
+
+  </form>
+  <h2> Szczegóły autora</h2>
+  <table class="table-list">
+    <thead>
+    <tr>
+      <th>Nazwa książki</th>
+      <th>Data napisania</th>
+      <th>Język</th>
+      <th>Bestseller</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <td>Złoto</td>
+      <td>02/10/2005</td>
+      <td>Polski</td>
+      <td>Nie</td>
+    </tr>
+    </tbody>
+  </table>
+  <p><a href="/authors" class="button-return">Powrót </a></p>
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>

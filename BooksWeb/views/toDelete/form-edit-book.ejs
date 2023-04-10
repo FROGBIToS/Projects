@@ -1,0 +1,46 @@
+<%- include('../../fragments/header.ejs') %>
+
+
+
+<main>
+  <h2> Zmiana książki</h2>
+  <form class="form">
+    <table class="table-inputs">
+      <tbody>
+    <tr>
+      <td>
+        <label for="Name">Nazwa:<span class="symbol-required">*</span></label>
+        <input type="text" name="Name" id="Name" value="Złoto" required>
+        <span id="errorName" class="error-text"></span>
+
+      </td>
+      <td>
+        <label for="Writting_date">Kiedy była napisana: <span class="symbol-required">*</span></label>
+        <input type="date" name="Writting_date" id="Writting_date" value="2005-10-02" required>
+        <span id="errorWritting_date" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Language">Język: <span class="symbol-required">*</span></label>
+        <input type="text" name="Language" id="Language" value="Polski" required>
+        <span id="errorLanguage" class="error-text"></span>
+      </td>
+      <td>
+        <label for="Bestseller">Bestseller: </label>
+        <input type="checkbox" name="Bestseller" id="Bestseller">
+      </td>
+      <td>
+        <div class="form-buttons">
+          <input type="submit" value="Zmień" class="form-button-submit">
+          <input type="button" class="form-button-cancel" onclick="history.back(-2); return false;" value="Anuluj">
+        </div>
+      </td>
+    </tr>
+
+      </tbody>
+    </table>
+  </form>
+
+
+</main>
+
+<%- include('../../fragments/footer.ejs') %>
