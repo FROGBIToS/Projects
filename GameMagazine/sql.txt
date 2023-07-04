@@ -1,0 +1,130 @@
+CREATE DATABASE magazineDB;
+use magazineDB;
+
+CREATE TABLE Pracownik (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    imie VARCHAR(255) NOT NULL,
+    nazwisko VARCHAR(255) NOT NULL,
+    adres_zamieszkania VARCHAR(255) NOT NULL,
+    numer_telefonu VARCHAR(20) NOT NULL unique,
+    emails JSON,
+    data_zatrudnienia DATE NOT NULL,
+    pensja FLOAT NOT NULL
+);
+
+CREATE TABLE Dyrektor (
+    id INT PRIMARY KEY,
+    kod_dyrektora VARCHAR(10) NOT NULL,
+    FOREIGN KEY (id) REFERENCES Pracownik(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Menedżer (
+    id INT PRIMARY KEY,
+    FOREIGN KEY (id) REFERENCES Pracownik(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Pisarz (
+    id INT PRIMARY KEY,
+    portfolio VARCHAR(255) NULL,
+    FOREIGN KEY (id) REFERENCES Pracownik(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Artykul (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nazwa VARCHAR(255) NOT NULL,
+    pisarz_id INT NOT NULL,
+    opis VARCHAR(200) NOT NULL,
+    tekst TEXT NOT NULL,
+    data_napisania DATE NOT NULL,
+    czy_byl_zaakceptowany ENUM('True', 'False', 'W trakcie') NOT NULL,
+    czy_byl_przyjety ENUM('True', 'False', 'W trakcie') NOT NULL,
+    rozpatrywanie BOOLEAN NOT NULL,
+    min_ilosc_znakow INT NOT NULL,
+    FOREIGN KEY (pisarz_id) REFERENCES Pisarz(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Zaakceptowanie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dyrektor_id INT NOT NULL,
+    artykul_id INT NOT NULL,
+    czy_byl_zaakceptowany BOOLEAN NULL,
+    rozpatrywanie BOOLEAN NULL,
+    data_zaakceptowania DATE NULL,
+    FOREIGN KEY (dyrektor_id) REFERENCES Dyrektor(id) ON DELETE CASCADE,
+    FOREIGN KEY (artykul_id) REFERENCES Artykul(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Przyjmowanie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    artykul_id INT NOT NULL,
+    menedzer_id INT NOT NULL,
+    data_przyjecia DATE NOT NULL,
+    czy_byl_przyjety BOOLEAN NULL,
+    rozpatrywanie BOOLEAN NULL,
+    FOREIGN KEY (artykul_id) REFERENCES Artykul(id) ON DELETE CASCADE,
+    FOREIGN KEY (menedzer_id) REFERENCES Menedżer(id) ON DELETE CASCADE
+
+);
+
+DELIMITER //
+
+CREATE PROCEDURE GetManagerWithLeastAcceptances()
+BEGIN
+    SELECT M.id
+    FROM Menedżer M
+    LEFT JOIN Przyjmowanie P ON M.id = P.menedzer_id
+    WHERE P.id IS NULL OR P.rozpatrywanie = 0
+    GROUP BY M.id
+    ORDER BY COUNT(P.id)
+    LIMIT 1;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetDirectorWithLeastApprovals()
+BEGIN
+    SELECT D.id
+    FROM Dyrektor D
+    LEFT JOIN Zaakceptowanie Z ON D.id = Z.dyrektor_id
+    WHERE Z.id IS NULL OR Z.rozpatrywanie = 0
+    GROUP BY D.id
+    ORDER BY COUNT(Z.id)
+    LIMIT 1;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetEmployeeRole(
+    IN p_username VARCHAR(255),
+    IN p_password VARCHAR(255),
+    OUT p_role VARCHAR(255),
+    OUT p_employee_id INT
+)
+BEGIN
+    DECLARE employee_id INT;
+    DECLARE employee_role VARCHAR(255);
+
+    SET p_role = NULL;
+
+    SELECT id INTO employee_id
+    FROM Pracownik
+    WHERE imie = p_username AND numer_telefonu = p_password;
+
+    SET p_employee_id = employee_id;
+
+    IF employee_id IS NOT NULL THEN
+        IF EXISTS (SELECT * FROM Pisarz WHERE id = employee_id) THEN
+            SET p_role = 'pisarz';
+        ELSEIF EXISTS (SELECT * FROM Menedżer WHERE id = employee_id) THEN
+            SET p_role = 'menedzer';
+        ELSEIF EXISTS (SELECT * FROM Dyrektor WHERE id = employee_id) THEN
+            SET p_role = 'dyrektor';
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;
